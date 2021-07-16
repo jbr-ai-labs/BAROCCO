@@ -7,7 +7,7 @@ The code is divided into 4 folders, corresponding to the combinations of two env
 
 Harvest is a popular mixed environment for multi-agent reinforcement learning.
 
-![Harvest](https://user-images.githubusercontent.com/22059171/125957619-beaa5df5-3534-4576-a49d-4777d06bf5b7.png)
+<img src="https://user-images.githubusercontent.com/22059171/125957619-beaa5df5-3534-4576-a49d-4777d06bf5b7.png" height="300">
 
 The code for the environment was provided by [https://github.com/eugenevinitsky/sequential_social_dilemma_games](https://github.com/eugenevinitsky/sequential_social_dilemma_games)
 
@@ -15,7 +15,7 @@ The code for the environment was provided by [https://github.com/eugenevinitsky/
 
 Eldorado is an original mixed environment based on the NeuralMMO environment ([https://github.com/openai/neural-mmo](https://github.com/openai/neural-mmo)).
 
-![Eldorado](https://user-images.githubusercontent.com/22059171/125957756-435f1dfb-5429-4e8a-9756-8a91d96e5eba.png)
+<img src="https://user-images.githubusercontent.com/22059171/125957756-435f1dfb-5429-4e8a-9756-8a91d96e5eba.png" height="300">
 
 
 ## Structure
