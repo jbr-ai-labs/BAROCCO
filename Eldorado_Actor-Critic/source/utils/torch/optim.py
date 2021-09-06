@@ -36,7 +36,7 @@ def backwardAgent(trajectories, valWeight=0.5, entWeight=0.01, device='cuda', la
     rho = torch.stack(outs['rho']).to(device).view(-1, 1).float()
     As = torch.stack(outs['As']).to(device).view(-1, 1).float().detach()
     policy = torch.stack(outs['policy']).to(device).view(-1, 10).float()
-    pg, entropy = loss.PG(rho, loss.advantage(lambda_adv * As + (1 - lambda_adv) * (rets - vals)), policy)
+    pg, entropy = loss.PG(policy, rho, loss.advantage(lambda_adv * As + (1 - lambda_adv) * (rets - vals)))
     valLoss = loss.valueLoss(rets, vals)
     return (pg + valWeight * valLoss + entWeight * entropy), outs
 
