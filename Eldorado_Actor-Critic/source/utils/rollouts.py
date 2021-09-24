@@ -3,7 +3,7 @@ import numpy as np
 from source.env.lib.log import Blob
 
 
-def discountRewardsTD(rewards, vals, gamma=0.99, nSteps=1):
+def discountRewardsTD(rewards, vals, gamma=0.99, nSteps=10000):
     N = len(rewards) - 1
     rets = np.zeros(N)
     rets[-1] = rewards[-1]
