@@ -137,7 +137,7 @@ class Controller:
         entID, annID = ent.entID, ent.annID
         reward = 1 if ent.timeAlive > self.config.HORIZON else self.config.STEPREWARD + self.config.DEADREWARD * n_dead
 
-        annReturns = self.anns[annID](state.unsqueeze(0))
+        annReturns = self.anns[annID](state.unsqueeze(0), train=True)
 
         playerActions, actionTargets, actionDecisions = self.getActionArguments(annReturns, stim, ent)
 
