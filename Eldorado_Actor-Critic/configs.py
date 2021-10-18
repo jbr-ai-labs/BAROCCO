@@ -39,6 +39,7 @@ class Experiment(Config):
         self.SW = 'sum'  # sum, min
         self.GAMMA = 0.99
         self.COMMON = False
+        self.n_step_ret = 10_000
 
 
 class SimpleMap(Experiment):

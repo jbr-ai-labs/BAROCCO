@@ -16,7 +16,9 @@ def discountRewards(rewards, gamma=0.99):
     rets, N = [], len(rewards)
     discounts = np.array([gamma ** i for i in range(N)])
     rewards = np.array(rewards)
-    for idx in range(N): rets.append(sum(rewards[idx:] * discounts[:N - idx]))
+    for idx in range(N):
+        rets.append(sum(rewards[idx:] * discounts[:N - idx]))
+
     return rets
 
 
@@ -50,7 +52,7 @@ class Blob:
 
     def finish(self):
         self.lifetime = len(self.reward)
-        self.reward = discountRewards(self.reward[1:])[0] if self.lifetime > 0 else 0
+        self.reward = discountRewards(self.reward[1:])[0] if self.lifetime > 0 else 0.
         self.contact = np.mean(self.contact)
         self.attack = 0 if len(self.attack) == 0 else np.mean(self.attack)
         self.value = np.mean(self.value)
@@ -80,23 +82,45 @@ class Quill:
     def scrawl(self, logs):
         # Collect log update
         self.index += 1
-        rewards, blobs = [], logs
-        returns = 0
-        for blob in logs:
-            returns += float(blob.reward)
-            rewards.append(float(blob.lifetime))
+        blobs = logs
+        lifetime_agg = []
+        lifetime_0 = []
+        lifetime_1 = []
+        contact = []
+        attack = []
+        value = []
+        reward = []
 
-        returns /= len(logs)
-        self.lifetime = np.mean(rewards)
+        for blob in logs:
+            if blob.annID == 0:
+                lifetime_0.append(blob.lifetime)
+            elif blob.annID == 1:
+                lifetime_1.append(blob.lifetime)
+
+            reward.append(blob.reward)
+            lifetime_agg.append(blob.lifetime)
+            contact.append(blob.contact)
+            attack.append(blob.attack)
+            value.append(blob.value)
+
+        reward = np.mean(reward)
+        lifetime_agg = np.mean(lifetime_agg)
+        lifetime_0 = np.mean(lifetime_0)
+        lifetime_1 = np.mean(lifetime_1)
+        contact = np.mean(contact)
+        attack = np.mean(contact)
+        value = np.mean(value)
+
+        self.rewards = lifetime_agg
         blobRet = []
         for e in blobs:
             if np.random.uniform() < 0.1:
                 blobRet.append(e)
         self.save(blobRet)
-        return returns
+        return reward, lifetime_agg, lifetime_0, lifetime_1, contact, attack, value
 
     def latest(self):
-        return self.lifetime
+        return self.rewards
 
     def save(self, blobs, name='logs.p'):
         with open(self.dir + name, 'ab') as f:

@@ -37,11 +37,13 @@ def stats_agent(ent, config):
 
 
 def actions_agent(ent, config):
-    ret = list(one_hot(ent.moveDec, 5))
-    if config.ATTACK:
-        ret += [float(ent.attackDec)]
-    if config.SHARE:
-        ret += [float(ent.shareWaterDec), float(ent.shareFoodDec)]
+    ret = list(one_hot(0, 6))
+    # ret = list(one_hot(ent.moveDec, 5))
+    # if config.ATTACK:
+    #     ret += [float(ent.attackDec)]
+    # if config.SHARE:
+    #     ret += [float(ent.shareWaterDec), float(ent.shareFoodDec)]
+
     return ret
 
 

@@ -137,7 +137,9 @@ class Controller:
         entID, annID = ent.entID, ent.annID
         reward = 1 if ent.timeAlive > self.config.HORIZON else self.config.STEPREWARD + self.config.DEADREWARD * n_dead
 
-        annReturns = self.anns[annID](state.unsqueeze(0), train=True)
+        state_global_dummy = torch.cat((state.unsqueeze(0), torch.tensor([1, 0, 0, 0, 0, 0]).unsqueeze(0)), dim=1)
+        annReturns = self.anns[annID](state.unsqueeze(0), state_global_dummy, True)
+        # annReturns = self.anns[annID](state.unsqueeze(0))
 
         playerActions, actionTargets, actionDecisions = self.getActionArguments(annReturns, stim, ent)
 

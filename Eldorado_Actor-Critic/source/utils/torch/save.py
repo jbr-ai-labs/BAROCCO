@@ -1,4 +1,5 @@
 import time
+# import wandb
 
 import torch
 
@@ -26,6 +27,7 @@ class Saver:
 
         self.resetter = Resetter(resetTol)
         self.best = 0
+        self.best_lifetime = 0
         self.start, self.epoch = time.time(), 0
         self.resetTol = resetTol
 
@@ -35,13 +37,18 @@ class Saver:
                 'epoch': self.epoch}
         torch.save(data, self.root + fname + self.extn)
 
-    def checkpoint(self, reward, params, opt):
+    def checkpoint(self, logs, params, opt):
+        reward, lifetime, _, _, _, _, _ = logs
         if self.epoch % 10 == 0:
             self.save(params, opt, self.savef)
         best = reward > self.best
+
         if best:
             self.best = reward
             self.save(params, opt, self.bestf)
+
+        if lifetime > self.best_lifetime:
+            self.best_lifetime = lifetime
 
         self.time = time.time() - self.start
         self.start = time.time()
@@ -77,8 +84,21 @@ class Saver:
 
         return epoch
 
-    def print(self):
-        print('Tick: ', self.epoch,
-              ', Time: ', str(self.time)[:5],
-              ', Lifetime: ', str(self.reward)[:5],
-              ', Best: ', str(self.best)[:5])
+    def print(self, logs):
+        reward, lifetime_agg, lifetime_0, lifetime_1, contact, attack, value = logs
+        # Uncomment this if you want to use wandb
+        # print(f'Game: {self.epoch:.0f}, '
+        #       f'Time: {self.time:.3f}, '
+        #       f'Lifetime Agg: {lifetime_agg:.3f} '
+        #       f'Lifetime Agent_0: {lifetime_0:.3f} '
+        #       f'Lifetime Agent_1: {lifetime_1:.3f} '
+        #       f'Best: {self.best_lifetime:.3f}')
+        #
+        # wandb.log({'Game': self.epoch,
+        #            'time': self.time,
+        #            'lifetime_agg': lifetime_agg,
+        #            'lifetime_0': lifetime_0,
+        #            'lifetime_1': lifetime_1,
+        #            'contact': contact,
+        #            'attack': attack,
+        #            'value': value})

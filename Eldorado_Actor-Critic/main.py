@@ -1,6 +1,7 @@
 import argparse
+# import wandb
 from collections import namedtuple
-
+import torch
 import experiments
 from source.agent import runner, Controller, Learner
 
@@ -23,7 +24,11 @@ class NativeExample:
 
 if __name__ == '__main__':
     args = parseArgs()
+    print('cuda', torch.cuda.is_available())
+    print(torch.version.cuda)
     config = experiments.exps['barocco']
+    # Uncomment this if you want to use wandb
+    # wandb.init(project='barocco', config=config, save_code=True)
 
     example = NativeExample(config, args)
     example.run()

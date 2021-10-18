@@ -41,7 +41,7 @@ class Rollout:
 
     def finish(self):
         self.lifespan = len(self.rewards)
-        self.rets = discountRewardsTD(self.rewards, self.vals, self.config.GAMMA)
+        self.rets = discountRewardsTD(self.rewards, self.vals, self.config.GAMMA, self.config.n_step_ret)
         self.feather.finish()
 
 

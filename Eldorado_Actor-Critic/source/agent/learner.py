@@ -185,6 +185,6 @@ class Learner:
             self.train(batch)
 
         self.net.checkpoint(lifetime)
-        self.net.saver.print()
+        self.net.saver.print(lifetime)
 
         return self.model()
